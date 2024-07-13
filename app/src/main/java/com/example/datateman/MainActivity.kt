@@ -15,6 +15,8 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import android.widget.RadioGroup
+import android.widget.RadioButton
 
 class MainActivity : AppCompatActivity(),View.OnClickListener {
     private var auth:FirebaseAuth? = null
@@ -50,24 +52,29 @@ class MainActivity : AppCompatActivity(),View.OnClickListener {
                 val getAlamat: String = binding.alamat.getText().toString()
                 val getNoHP: String = binding.noHp.getText().toString()
 
+                val selectedGenderId = binding.genderGroup.checkedRadioButtonId
+                val genderRadioButton: RadioButton = findViewById(selectedGenderId)
+                val getGender: String = genderRadioButton.text.toString()
+
                 //get referensi dari Database
                 val getReference: DatabaseReference
                 getReference = database.reference
 
                 //cek apakah ada data yang kosong
-                if (isEmpty(getNama) || isEmpty(getAlamat) || isEmpty(getNoHP)){
+                if (isEmpty(getNama) || isEmpty(getAlamat) || isEmpty(getNoHP)|| selectedGenderId == -1){
                     //if ada , maka akan show pesan like this
                     Toast.makeText(this@MainActivity, "Data Tidak Boleh Kosong",
                         Toast.LENGTH_SHORT).show()
                 } else {
                     //if tidak ada, maka saved ke database sesuai id masing" akun
                     getReference.child("Admin").child(getUserID).child("DataTeman").push()
-                        .setValue(data_teman(getNama,getAlamat,getNoHP))
+                        .setValue(data_teman(getNama,getAlamat,getNoHP,getGender))
                         .addOnCompleteListener(this){
                             //bagian ini terjadi when user success save data
                             binding.nama.setText("")
                             binding.alamat.setText("")
                             binding.noHp.setText("")
+                            binding.genderGroup.clearCheck()
                             Toast.makeText(this@MainActivity,"Data Tersimpan",
                                 Toast.LENGTH_SHORT).show()
                         }

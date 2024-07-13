@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -24,6 +25,7 @@ class RecyclerViewAdaptor (private val dataTeman: ArrayList<data_teman>, context
         val Alamat: TextView
         val NoHP: TextView
         val ListItem: LinearLayout
+        val Gender: TextView
 
         //initiate view yg terpasang pada layout RecyclerView
         init {
@@ -31,6 +33,7 @@ class RecyclerViewAdaptor (private val dataTeman: ArrayList<data_teman>, context
             Alamat = itemView.findViewById(R.id.alamatx)
             NoHP = itemView.findViewById(R.id.no_hpx)
             ListItem = itemView.findViewById(R.id.list_item)
+            Gender = itemView.findViewById(R.id.genderx)
         }
     }
 
@@ -48,11 +51,13 @@ class RecyclerViewAdaptor (private val dataTeman: ArrayList<data_teman>, context
         val Nama: String? = dataTeman.get(position).nama
         val Alamat: String? = dataTeman.get(position).alamat
         val NoHP : String? = dataTeman.get(position).no_hp
+        val Gender: String? = dataTeman.get(position).gender
 
     //input value ke dalam view
     holder.Nama.text = "Nama: $Nama"
     holder.Alamat.text = "Alamat: $Alamat"
-    holder.NoHP.text = "No HP : $NoHP"
+    holder.NoHP.text = "NoHP : $NoHP"
+    holder.Gender.text = "Jenis Kelamin :$Gender"
     holder.ListItem.setOnLongClickListener(
         object  : View.OnLongClickListener {
             override fun onLongClick(v: View?): Boolean {
@@ -66,7 +71,8 @@ class RecyclerViewAdaptor (private val dataTeman: ArrayList<data_teman>, context
                                 val bundle = Bundle()
                                 bundle.putString("dataNama", dataTeman[position].nama)
                                 bundle.putString("dataAlamat", dataTeman[position].alamat)
-                                bundle.putString("dataNoHP", dataTeman[position].no_hp)
+                                bundle.putString("NoHP", dataTeman[position].no_hp)
+                                bundle.putString("Jenis Kelamin", dataTeman[position].gender)
                                 bundle.putString("getPrimaryKey", dataTeman[position].key)
                                 val intent = Intent(view.context, UpdateData::class.java)
                                 intent.putExtras(bundle)
